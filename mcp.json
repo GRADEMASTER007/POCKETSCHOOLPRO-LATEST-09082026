@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "tutorflow": {
+      "type": "http",
+      "url": "https://mcp.tutorflow.io/api/mcp",
+      "headers": {
+        "Authorization": "Bearer tf_platform_AQ.Ab8RN6KO0Mm6jmhmhKBl5eQI7QmaJfBmFzeDM1yoOL4ialX7PA"
+      }
+    }
+  }
+}

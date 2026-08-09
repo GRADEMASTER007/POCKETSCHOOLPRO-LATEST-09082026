@@ -1,0 +1,427 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique user ID" },
+        "email": { "type": "string", "format": "email", "description": "User's email address" },
+        "displayName": { "type": "string", "description": "User's display name" },
+        "photoURL": { "type": "string", "description": "URL to user's profile photo" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when the user was created" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Timestamp when the user was last updated" }
+      },
+      "required": ["uid", "email", "createdAt", "updatedAt"]
+    },
+    "ChatMessage": {
+      "title": "Chat Message",
+      "description": "A single message in the AI chat history",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique message ID" },
+        "userId": { "type": "string", "description": "ID of the user who owns this chat" },
+        "role": { "type": "string", "enum": ["user", "assistant"], "description": "Role of the message sender" },
+        "content": { "type": "string", "description": "The text content of the message", "maxLength": 10000 },
+        "timestamp": { "type": "string", "format": "date-time", "description": "Timestamp of the message" }
+      },
+      "required": ["id", "userId", "role", "content", "timestamp"]
+    },
+    "Exam": {
+      "title": "Exam",
+      "description": "An upcoming exam",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "subject": { "type": "string" },
+        "examDate": { "type": "number" }
+      },
+      "required": ["userId", "title", "subject", "examDate"]
+    },
+    "Grade": {
+      "title": "Grade",
+      "description": "A recorded grade",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "subject": { "type": "string" },
+        "type": { "type": "string" },
+        "score": { "type": "number" },
+        "date": { "type": "number" }
+      },
+      "required": ["userId", "subject", "type", "score", "date"]
+    },
+    "Assignment": {
+      "title": "Assignment",
+      "description": "A homework assignment",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "subject": { "type": "string" },
+        "description": { "type": "string" },
+        "dueDate": { "type": "number" }
+      },
+      "required": ["userId", "title", "subject", "dueDate"]
+    },
+    "Flashcard": {
+      "title": "Flashcard",
+      "description": "A study flashcard",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "category": { "type": "string" },
+        "question": { "type": "string" },
+        "answer": { "type": "string" }
+      },
+      "required": ["userId", "category", "question", "answer"]
+    },
+    "Quiz": {
+      "title": "Quiz",
+      "description": "A quiz or assessment",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "category": { "type": "string" }
+      },
+      "required": ["userId", "title", "category"]
+    },
+    "FocusSession": {
+      "title": "Focus Session",
+      "description": "A recorded study focus session",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "date": { "type": "string" },
+        "durationSeconds": { "type": "number" }
+      },
+      "required": ["userId", "date", "durationSeconds"]
+    },
+    "StudyRoadmap": {
+      "title": "Study Roadmap",
+      "description": "A roadmap for studying a subject",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "subject": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "status": { "type": "string" },
+        "dueDate": { "type": "number" },
+        "order": { "type": "number" },
+        "subTasks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "text": { "type": "string" },
+              "completed": { "type": "boolean" }
+            }
+          }
+        }
+      },
+      "required": ["userId", "subject", "title", "status"]
+    },
+    "Document": {
+      "title": "Document",
+      "description": "A study document or guide",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "mimeType": { "type": "string" },
+        "content": { "type": "string" },
+        "size": { "type": "number" },
+        "webViewLink": { "type": "string" },
+        "modifiedTime": { "type": "string" }
+      },
+      "required": ["userId", "name", "content"]
+    },
+    "UserStreak": {
+      "title": "User Streak",
+      "description": "User's study streak information",
+      "type": "object",
+      "properties": {
+        "currentStreak": { "type": "number" },
+        "longestStreak": { "type": "number" },
+        "totalDaysStudied": { "type": "number" },
+        "lastStudyDate": { "type": "string" }
+      },
+      "required": ["currentStreak", "longestStreak", "totalDaysStudied"]
+    },
+    "UserStats": {
+      "title": "User Stats",
+      "description": "User's experience and badges",
+      "type": "object",
+      "properties": {
+        "xp": { "type": "number" },
+        "claimedBadges": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["xp", "claimedBadges"]
+    },
+    "StudyRoom": {
+      "title": "Study Room",
+      "description": "A collaborative study room",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "members": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["id", "name", "members", "createdAt"]
+    },
+    "RoomMessage": {
+      "title": "Room Message",
+      "description": "A message in a study room",
+      "type": "object",
+      "properties": {
+        "roomId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["roomId", "userId", "userName", "text", "createdAt"]
+    },
+    "Note": {
+      "title": "Note",
+      "description": "A personal study note",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["userId", "title", "content"]
+    },
+    "BuddyRequest": {
+      "title": "Buddy Request",
+      "description": "A request to connect as study buddies",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "senderPhoto": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "declined"] },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["senderId", "receiverId", "status", "createdAt"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Financial transaction record",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string" },
+        "planId": { "type": "string" },
+        "amount": { "type": "number" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["userId", "email", "planId", "amount", "status", "createdAt"]
+    },
+    "UserGoal": {
+      "title": "User Goal",
+      "description": "Daily study goals for a user",
+      "type": "object",
+      "properties": {
+        "goals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "text": { "type": "string" },
+              "completed": { "type": "boolean" }
+            }
+          }
+        },
+        "lastUpdated": { "type": "string", "format": "date-time" }
+      },
+      "required": ["goals", "lastUpdated"]
+    },
+    "UserGems": {
+      "title": "User Gems Wallet",
+      "description": "User gems balance and referral rewards",
+      "type": "object",
+      "properties": {
+        "gemsBalance": { "type": "number" },
+        "rubiesCount": { "type": "number" },
+        "diamondsCount": { "type": "number" },
+        "totalReferrals": { "type": "number font" }
+      },
+      "required": ["gemsBalance"]
+    },
+    "UserQuests": {
+      "title": "User Quests",
+      "description": "User daily study quests progress and claimed rewards",
+      "type": "object",
+      "properties": {
+        "quests": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "completed": { "type": "boolean" },
+              "claimed": { "type": "boolean" }
+            }
+          }
+        },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["quests"]
+    },
+    "Referral": {
+      "title": "Referral Record",
+      "description": "Record of student referrals and gem rewards",
+      "type": "object",
+      "properties": {
+        "referrerUid": { "type": "string" },
+        "friendEmail": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["referrerUid", "friendEmail", "status", "createdAt"]
+    },
+    "UserUsage": {
+      "title": "User Usage",
+      "description": "Usage statistics for a user",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "ai_requests": { "type": "number" },
+        "vision_requests": { "type": "number" },
+        "last_reset_date": { "type": "string", "format": "date" }
+      },
+      "required": ["userId", "ai_requests", "vision_requests", "last_reset_date"]
+    },
+    "PwaAudit": {
+      "title": "PWA Audit",
+      "description": "Diagnostic telemetry for PWA state and performance monitoring",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "ID of the user, or 'anonymous'" },
+        "isStandalone": { "type": "boolean", "description": "Whether running in standalone display mode" },
+        "serviceWorkerStatus": { "type": "string", "description": "Service worker controller registration status" },
+        "isOnline": { "type": "boolean", "description": "Whether the client is online" },
+        "effectiveType": { "type": "string", "description": "Effective network connection type (e.g., 4g)" },
+        "downlink": { "type": "number", "description": "Network downlink speed in Mbps" },
+        "rtt": { "type": "number", "description": "Network round-trip time in ms" },
+        "loadTimeMs": { "type": "number", "description": "Total page load duration in ms" },
+        "domInteractiveMs": { "type": "number", "description": "Time to DOM interactive in ms" },
+        "dnsLookupMs": { "type": "number", "description": "Time to DNS resolution in ms" },
+        "tcpConnectMs": { "type": "number", "description": "TCP connection duration in ms" },
+        "requestResponseMs": { "type": "number", "description": "Request to response duration in ms" },
+        "deviceMemory": { "type": "number", "description": "Approximate device memory in GB" },
+        "hardwareConcurrency": { "type": "number", "description": "Number of logical CPU cores" },
+        "userAgent": { "type": "string", "description": "Client browser user agent string" },
+        "timestamp": { "type": "number", "description": "Unix timestamp of audit event" }
+      },
+      "required": ["userId", "isStandalone", "serviceWorkerStatus", "isOnline", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/users/{userId}/chatHistory/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "AI chat history for each user"
+    },
+    "/exams/{examId}": {
+      "schema": "Exam",
+      "description": "Exam records"
+    },
+    "/grades/{gradeId}": {
+      "schema": "Grade",
+      "description": "Grade records"
+    },
+    "/assignments/{assignmentId}": {
+      "schema": "Assignment",
+      "description": "Assignment records"
+    },
+    "/flashcards/{flashcardId}": {
+      "schema": "Flashcard",
+      "description": "Flashcard records"
+    },
+    "/quizzes/{quizId}": {
+      "schema": "Quiz",
+      "description": "Quiz records"
+    },
+    "/focus_sessions/{sessionId}": {
+      "schema": "FocusSession",
+      "description": "Focus session records"
+    },
+    "/study_roadmaps/{roadmapId}": {
+      "schema": "StudyRoadmap",
+      "description": "Study roadmap records"
+    },
+    "/documents/{docId}": {
+      "schema": "Document",
+      "description": "Document records"
+    },
+    "/user_streaks/{userId}": {
+      "schema": "UserStreak",
+      "description": "User streaks"
+    },
+    "/user_stats/{userId}": {
+      "schema": "UserStats",
+      "description": "User stats"
+    },
+    "/study_rooms/{roomId}": {
+      "schema": "StudyRoom",
+      "description": "Study rooms"
+    },
+    "/room_messages/{messageId}": {
+      "schema": "RoomMessage",
+      "description": "Messages in study rooms"
+    },
+    "/notes/{noteId}": {
+      "schema": "Note",
+      "description": "User study notes"
+    },
+    "/buddy_requests/{requestId}": {
+      "schema": "BuddyRequest",
+      "description": "Study buddy connection requests"
+    },
+    "/transactions/{txId}": {
+      "schema": "Transaction",
+      "description": "Financial transaction logs"
+    },
+    "/user_goals/{userId}": {
+      "schema": "UserGoal",
+      "description": "User daily study goals"
+    },
+    "/user_gems/{userId}": {
+      "schema": "UserGems",
+      "description": "User gems balance and referral rewards"
+    },
+    "/user_quests/{userId}": {
+      "schema": "UserQuests",
+      "description": "User daily study quests and claimed rewards"
+    },
+    "/referrals/{referralId}": {
+      "schema": "Referral",
+      "description": "Referral tracking records"
+    },
+    "/user_usage/{userId}": {
+      "schema": "UserUsage",
+      "description": "User usage tracking"
+    },
+    "/pwa_audits/{auditId}": {
+      "schema": "PwaAudit",
+      "description": "PWA diagnostic audit logs"
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "name": "GRADEMASTER007/ai-tutor-mcp-hub",
+  "version": "1.0.0",
+  "description": "Model Context Protocol (MCP) Configuration for Grade Master Africa AI Tutor SaaS",
+  "mcpServers": {
+    "filesystem-edu": {
+      "type": "local-file-system",
+      "enabled": true,
+      "env": {
+        "STORAGE_PATH": "MCP_FILESYSTEM_DIR"
+      },
+      "description": "Reads and writes student lesson files, study notes, and uploaded homework documents."
+    },
+    "memory-edu": {
+      "type": "long-term-json-profile",
+      "enabled": true,
+      "env": {
+        "MEMORY_PATH": "MCP_MEMORY_DIR"
+      },
+      "description": "Stores each student's long-term learning profile (concepts learned, mistakes, language level) in JSON files."
+    },
+    "github-edu": {
+      "type": "github-repository-reader",
+      "enabled": true,
+      "env": {
+        "GITHUB_REPO": "GRADEMASTER007/ai-tutor-mcp-hub",
+        "GITHUB_TOKEN": "MCP_GITHUB_TOKEN"
+      },
+      "description": "Reads course content, syllabus definitions, and lesson templates from GitHub repositories."
+    },
+    "fetch-edu": {
+      "type": "web-enrichment-fetcher",
+      "enabled": true,
+      "env": {
+        "USER_AGENT": "GradeMasterAfrica-EduFetcher/1.0"
+      },
+      "description": "Fetches web content and academic reference material for learning enrichment."
+    },
+    "postgres-edu": {
+      "type": "relational-database",
+      "enabled": false,
+      "disabledReason": "Database not provisioned yet. Bypassed using local JSON file / in-memory fallback.",
+      "description": "Database tool for curriculum data (courses, lessons, questions, progress) - Currently disabled."
+    }
+  }
+}

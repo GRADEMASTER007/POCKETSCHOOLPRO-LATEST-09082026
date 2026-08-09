@@ -1,0 +1,265 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // -------------------------------------------------------------------------
+    // HELPERS (Phase 3: Primitive Definition)
+    // -------------------------------------------------------------------------
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // -------------------------------------------------------------------------
+    // VALIDATION BLUEPRINTS (Pillar 2)
+    // -------------------------------------------------------------------------
+    
+    function isValidUser(data) {
+      return data.uid == request.auth.uid;
+    }
+
+    function isValidChatMessage(data) {
+      return data.userId == request.auth.uid;
+    }
+
+    function isValidExam(data) {
+      return data.userId == request.auth.uid;
+    }
+
+    function isValidGrade(data) {
+      return data.userId == request.auth.uid;
+    }
+
+    function isValidAssignment(data) {
+      return data.userId == request.auth.uid;
+    }
+
+    function isValidFlashcard(data) {
+      return data.userId == request.auth.uid;
+    }
+
+    function isValidQuiz(data) {
+      return data.userId == request.auth.uid;
+    }
+
+    function isValidFocusSession(data) {
+      return data.userId == request.auth.uid;
+    }
+
+    function isValidStudyRoadmap(data) {
+      return data.userId == request.auth.uid;
+    }
+
+    function isValidDocument(data) {
+      return data.userId == request.auth.uid;
+    }
+
+    function isValidNote(data) {
+      return data.userId == request.auth.uid;
+    }
+
+    function isValidBuddyRequest(data) {
+      return (data.senderId == request.auth.uid || data.receiverId == request.auth.uid);
+    }
+
+    function isValidTransaction(data) {
+      return data.userId == request.auth.uid;
+    }
+
+    function isValidPwaAudit(data) {
+      return (data.userId == request.auth.uid || data.userId == 'anonymous') &&
+        data.isStandalone is bool &&
+        data.serviceWorkerStatus is string &&
+        data.isOnline is bool &&
+        data.timestamp is number;
+    }
+
+    // -------------------------------------------------------------------------
+    // MATCH BLOCKS (Pillar 1 & 8)
+    // -------------------------------------------------------------------------
+
+    // Global default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false; 
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+
+      match /chatHistory/{messageId} {
+        allow read, write: if isOwner(userId);
+      }
+      
+      match /usage/{docId} {
+        allow read: if isOwner(userId);
+      }
+
+      match /token_usage/{docId} {
+        allow read: if isOwner(userId);
+      }
+    }
+
+    match /schools/{schoolId} {
+      allow read: if isSignedIn() && (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.schoolId == schoolId);
+      allow update: if isSignedIn() && (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'school_admin' && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.schoolId == schoolId);
+      
+      match /usage/{docId} {
+        allow read: if isSignedIn() && (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.schoolId == schoolId);
+      }
+    }
+
+    match /exams/{examId} {
+      allow read: if isOwner(resource.data.userId);
+      allow create: if isOwner(incoming().userId) && isValidExam(incoming());
+      allow update: if isOwner(existing().userId) && isValidExam(incoming());
+      allow delete: if isOwner(existing().userId);
+    }
+
+    match /grades/{gradeId} {
+      allow read: if isOwner(resource.data.userId);
+      allow create: if isOwner(incoming().userId) && isValidGrade(incoming());
+      allow update: if isOwner(existing().userId) && isValidGrade(incoming());
+      allow delete: if isOwner(existing().userId);
+    }
+
+    match /assignments/{assignmentId} {
+      allow read: if isOwner(resource.data.userId);
+      allow create: if isOwner(incoming().userId) && isValidAssignment(incoming());
+      allow update: if isOwner(existing().userId) && isValidAssignment(incoming());
+      allow delete: if isOwner(existing().userId);
+    }
+
+    match /flashcards/{flashcardId} {
+      allow read: if isOwner(resource.data.userId);
+      allow create: if isOwner(incoming().userId) && isValidFlashcard(incoming());
+      allow update: if isOwner(existing().userId) && isValidFlashcard(incoming());
+      allow delete: if isOwner(existing().userId);
+    }
+
+    match /quizzes/{quizId} {
+      allow read: if isOwner(resource.data.userId);
+      allow create: if isOwner(incoming().userId) && isValidQuiz(incoming());
+      allow update: if isOwner(existing().userId) && isValidQuiz(incoming());
+      allow delete: if isOwner(existing().userId);
+    }
+
+    match /focus_sessions/{sessionId} {
+      allow read: if isOwner(resource.data.userId);
+      allow create: if isOwner(incoming().userId) && isValidFocusSession(incoming());
+      allow update: if isOwner(existing().userId) && isValidFocusSession(incoming());
+      allow delete: if isOwner(existing().userId);
+    }
+
+    match /study_roadmaps/{roadmapId} {
+      allow read: if isOwner(resource.data.userId);
+      allow create: if isOwner(incoming().userId) && isValidStudyRoadmap(incoming());
+      allow update: if isOwner(existing().userId) && isValidStudyRoadmap(incoming());
+      allow delete: if isOwner(existing().userId);
+    }
+
+    match /documents/{docId} {
+      allow read: if isOwner(resource.data.userId);
+      allow create: if isOwner(incoming().userId) && isValidDocument(incoming());
+      allow update: if isOwner(existing().userId) && isValidDocument(incoming());
+      allow delete: if isOwner(existing().userId);
+    }
+
+    match /user_streaks/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId);
+    }
+
+    match /user_stats/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId);
+    }
+
+    match /study_rooms/{roomId} {
+      allow read: if isSignedIn() && (request.auth.uid in resource.data.members);
+      allow create: if isSignedIn() && (request.auth.uid in incoming().members);
+      allow update: if isSignedIn() && (request.auth.uid in existing().members);
+    }
+
+    match /room_messages/{messageId} {
+      allow read: if isSignedIn() && exists(/databases/$(database)/documents/study_rooms/$(resource.data.roomId)) 
+        && (request.auth.uid in get(/databases/$(database)/documents/study_rooms/$(resource.data.roomId)).data.members);
+      allow create: if isSignedIn() && (incoming().userId == request.auth.uid)
+        && exists(/databases/$(database)/documents/study_rooms/$(incoming().roomId))
+        && (request.auth.uid in get(/databases/$(database)/documents/study_rooms/$(incoming().roomId)).data.members);
+    }
+
+    match /notes/{noteId} {
+      allow read: if isOwner(resource.data.userId);
+      allow create: if isOwner(incoming().userId) && isValidNote(incoming());
+      allow update: if isOwner(existing().userId) && isValidNote(incoming());
+      allow delete: if isOwner(existing().userId);
+    }
+
+    match /buddy_requests/{requestId} {
+      allow read: if isOwner(resource.data.senderId) || isOwner(resource.data.receiverId);
+      allow create: if isOwner(incoming().senderId) && isValidBuddyRequest(incoming());
+      allow update: if (isOwner(existing().senderId) || isOwner(existing().receiverId)) && isValidBuddyRequest(incoming());
+      allow delete: if isOwner(existing().senderId) || isOwner(existing().receiverId);
+    }
+
+    match /transactions/{txId} {
+      allow read: if isOwner(resource.data.userId);
+      allow create: if isOwner(incoming().userId) && isValidTransaction(incoming());
+    }
+
+    match /user_goals/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId);
+    }
+
+    match /user_gems/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId);
+    }
+
+    match /user_quests/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId);
+    }
+
+    match /referrals/{referralId} {
+      allow read: if isSignedIn() && (resource == null || resource.data.referrerUid == request.auth.uid);
+      allow create: if isSignedIn() && request.resource.data.referrerUid == request.auth.uid;
+      allow update: if isSignedIn() && resource.data.referrerUid == request.auth.uid;
+    }
+
+    match /user_usage/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    match /telemetry/{docId} {
+      allow create: if isSignedIn();
+    }
+
+    match /pwa_audits/{auditId} {
+      allow create: if isSignedIn() && isValidId(auditId) && isValidPwaAudit(incoming());
+      allow read: if isSignedIn() && (isOwner(resource.data.userId) || resource.data.userId == 'anonymous');
+    }
+
+    match /test/{docId} {
+      allow read: if true;
+    }
+  }
+}

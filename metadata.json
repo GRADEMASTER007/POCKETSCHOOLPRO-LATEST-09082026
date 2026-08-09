@@ -1,0 +1,12 @@
+{
+  "name": "Pocket School Pro",
+  "description": "Pocket School Pro - The #1 AI-powered educational ecosystem for Grade R-12 & Higher Ed by Grade Master Africa. Deep accessibility, multilingual tutoring, and exam mastery.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
