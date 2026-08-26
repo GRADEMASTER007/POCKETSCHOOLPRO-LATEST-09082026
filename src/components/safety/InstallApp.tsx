@@ -48,7 +48,13 @@ import {
   RotateCcw,
   Vibrate,
   Radio,
-  Activity
+  Activity,
+  ChevronLeft,
+  ChevronRight,
+  Focus,
+  Maximize2,
+  ShieldCheck,
+  Lightbulb
 } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { cn } from "@/src/lib/utils";
@@ -138,12 +144,28 @@ const translations = {
     quickHelpTip2: "Check your lighting! Avoid deep shadows, glare, or extremely dim environments.",
     quickHelpTipLight: "Best scan in bright ambient light",
     quickHelpGotIt: "Got It",
+    carouselTitle: "Scanner Placement Guide",
+    carouselSubtitle: "Step-by-step camera placement for fast QR auto-detection",
+    carouselStep1Title: "1. Distance & Frame Centering",
+    carouselStep1Desc: "Hold device 15–30 cm (6–12 in) from the code. Align the entire QR box inside the green frame.",
+    carouselStep2Title: "2. Lighting & Anti-Glare Angle",
+    carouselStep2Desc: "Ensure clear lighting. If screen glare appears, tilt your device slightly to eliminate harsh reflection.",
+    carouselStep3Title: "3. Steady Hold & Lens Focus",
+    carouselStep3Desc: "Hold your phone steady for 1–2 seconds. Clean camera lens if the preview appears hazy or blurred.",
+    carouselStep4Title: "4. Laser Sweep & Haptic Pulse",
+    carouselStep4Desc: "When the laser line sweeps over the QR, auto-detect triggers a vibration confirmation pulse!",
+    carouselPrev: "Previous",
+    carouselNext: "Next",
+    carouselStartScan: "Start Camera Scan",
     saveToKeep: "Save to Keep",
     savingToKeep: "Saving...",
     savedToKeep: "Saved!",
     shareWhatsApp: "Share via WhatsApp",
     whatsappMessage: "Check out Grade Master Africa! It's a powerful tool for tracking your grades and academic progress. Install it here: ",
     autoStartScanner: "Auto-Start Scanner",
+    highContrastViewfinder: "High-Contrast Viewfinder",
+    highContrastActive: "High Contrast Active",
+    toggleHighContrast: "Toggle High Contrast Viewfinder",
     torch: "Torch",
     torchOn: "Torch On",
     torchOff: "Torch Off",
@@ -237,12 +259,28 @@ const translations = {
     quickHelpTip2: "Vérifiez l'éclairage ! Évitez les ombres portées, les reflets et l'obscurité.",
     quickHelpTipLight: "Idéal sous un éclairage lumineux",
     quickHelpGotIt: "Compris",
+    carouselTitle: "Guide de Positionnement Caméra",
+    carouselSubtitle: "Conseils étape par étape pour une détection QR ultra-rapide",
+    carouselStep1Title: "1. Distance et Cadrage",
+    carouselStep1Desc: "Tenez l'appareil à 15–30 cm du code. Alignez tout le carré QR à l'intérieur du cadre vert.",
+    carouselStep2Title: "2. Éclairage et Angle Anti-Reflet",
+    carouselStep2Desc: "Assurez un bon éclairage. En cas de reflet sur l'écran, Inclinez légèrement votre téléphone.",
+    carouselStep3Title: "3. Stabilité et Mise au Point",
+    carouselStep3Desc: "Restez immobile pendant 1 à 2 secondes. Nettoyez l'objectif si l'image est floue.",
+    carouselStep4Title: "4. Balayage Laser et Mtetemo Haptique",
+    carouselStep4Desc: "Dès que le faisceau laser vert balaye le QR, la détection valide déclenche un retour haptique !",
+    carouselPrev: "Précédent",
+    carouselNext: "Suivant",
+    carouselStartScan: "Démarrer le Scanner",
     saveToKeep: "Sauver dans Keep",
     savingToKeep: "Sauvegarde...",
     savedToKeep: "Sauvé !",
     shareWhatsApp: "Partager via WhatsApp",
     whatsappMessage: "Découvrez Grade Master Africa ! C'est un outil puissant pour suivre vos notes et vos progrès académiques. Installez-le ici : ",
     autoStartScanner: "Démarrage Auto Scanner",
+    highContrastViewfinder: "Viseur Haut Contraste",
+    highContrastActive: "Haut Contraste Actif",
+    toggleHighContrast: "Bascule Viseur Haut Contraste",
     torch: "Lampe",
     torchOn: "Lampe Allumée",
     torchOff: "Lampe Éteinte",
@@ -336,12 +374,28 @@ const translations = {
     quickHelpTip2: "Angalia mwanga! Epuka vivuli virefu, mng'ao, au mazingira meusi sana.",
     quickHelpTipLight: "Skani vyema chini ya mwanga mkali",
     quickHelpGotIt: "Nimeelewa",
+    carouselTitle: "Mwongozo wa Wekaji wa Kamera",
+    carouselSubtitle: "Hatua kwa hatua ili kamera isome msimbo wa QR haraka",
+    carouselStep1Title: "1. Umbali na Katikati ya Fremu",
+    carouselStep1Desc: "Shikilia simu sentimita 15–30 (inchi 6–12) kutoka kwa msimbo. Weka QR katikati ya fremu ya kijani.",
+    carouselStep2Title: "2. Mwanga na Mng'ao wa Skrini",
+    carouselStep2Desc: "Hakikisha mwanga unatosha. Kama skrini ina mng'ao, inamisha simu kidogo ili kuondoa mng'ao.",
+    carouselStep3Title: "3. Kushikilia Tulivu na Umakini",
+    carouselStep3Desc: "Shikilia simu yako bila kutikisika kwa sekunde 1-2. Safisha lenzi ya kamera ikiwa ina ukungu.",
+    carouselStep4Title: "4. Mwale wa Kijani na Mtetemo",
+    carouselStep4Desc: "Mwale wa kijani ukisoma msimbo wa QR, utahisi mtetemo unaothibitisha kuwa imesoma!",
+    carouselPrev: "Iliyotangulia",
+    carouselNext: "Inayofuata",
+    carouselStartScan: "Anza Kuskani Kamera",
     saveToKeep: "Hifadhi kwenye Keep",
     savingToKeep: "Inahifadhi...",
     savedToKeep: "Imehifadhiwa!",
     shareWhatsApp: "Shiriki kupitia WhatsApp",
     whatsappMessage: "Angalia Grade Master Africa! Ni zana nzuri ya kufuatilia alama zako na maendeleo ya kitaaluma. Isakinishe hapa: ",
     autoStartScanner: "Anza Kichanganuzi Kiotomatiki",
+    highContrastViewfinder: "Vioneo vya Tofauti Kubwa",
+    highContrastActive: "Tofauti Kubwa Imewashwa",
+    toggleHighContrast: "Badilisha Vioneo vya Tofauti Kubwa",
     torch: "Tochi",
     torchOn: "Tochi Imewashwa",
     torchOff: "Tochi Imezimwa",
@@ -493,6 +547,8 @@ export default function InstallApp() {
   const [showQrLogo, setShowQrLogo] = useState<boolean>(true);
   const [qrScale, setQrScale] = useState<number>(1.0);
   const [showQuickHelp, setShowQuickHelp] = useState(false);
+  const [carouselStep, setCarouselStep] = useState(0);
+  const [activeQuickTip, setActiveQuickTip] = useState<number | null>(null);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showIosGuide, setShowIosGuide] = useState(() => {
     if (typeof window !== "undefined") {
@@ -505,14 +561,28 @@ export default function InstallApp() {
   const [copied, setCopied] = useState(false);
   const [sessionScanCount, setSessionScanCount] = useState(0);
   const [enableScanSound, setEnableScanSound] = useState(true);
+  const [highContrastViewfinder, setHighContrastViewfinder] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("pwa-high-contrast-viewfinder") === "true";
+    }
+    return false;
+  });
 
   // Load persistent settings on mount to ensure hydration sync
   useEffect(() => {
     if (typeof window !== "undefined") {
       const savedSound = localStorage.getItem("pwa-scan-sound");
       if (savedSound !== null) setEnableScanSound(savedSound === "true");
+      const savedHC = localStorage.getItem("pwa-high-contrast-viewfinder");
+      if (savedHC !== null) setHighContrastViewfinder(savedHC === "true");
     }
   }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("pwa-high-contrast-viewfinder", String(highContrastViewfinder));
+    }
+  }, [highContrastViewfinder]);
 
   // Persist sound preference
   useEffect(() => {
@@ -2027,7 +2097,7 @@ export default function InstallApp() {
                       </button>
                     </div>
 
-                    {/* Quick Help Overlay */}
+                    {/* Quick Help Interactive Onboarding Carousel Overlay */}
                     <AnimatePresence>
                       {showQuickHelp && (
                         <motion.div
@@ -2035,56 +2105,383 @@ export default function InstallApp() {
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.95 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute inset-4 bg-white/98 backdrop-blur-sm rounded-2xl p-4 flex flex-col justify-between border border-gray-200 shadow-xl z-20"
+                          className="absolute inset-2 bg-slate-900/98 text-white backdrop-blur-md rounded-2xl p-3 flex flex-col justify-between border border-slate-700 shadow-2xl z-30 overflow-hidden"
                         >
-                          <div className="space-y-3">
-                            <div className="flex items-center gap-1.5 border-b border-gray-100 pb-2">
-                              <Info className="w-4 h-4 text-brand-primary shrink-0" />
-                              <h5 className="text-[11px] font-black uppercase tracking-wider text-gray-800">
-                                {t.quickHelpTitle}
-                              </h5>
+                          {/* Top Progress Bar */}
+                          <div className="w-full space-y-1 mb-1.5">
+                            <div className="flex items-center justify-between text-[8.5px] font-mono font-bold px-0.5">
+                              <span className="text-amber-400 flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                                Step {carouselStep + 1} of 4
+                              </span>
+                              <span className="text-slate-400">{Math.round(((carouselStep + 1) / 4) * 100)}% Completed</span>
                             </div>
-                            <div className="space-y-2.5 text-[10px] text-gray-600 leading-normal">
-                              <div className="flex items-start gap-2">
-                                <span className="flex items-center justify-center w-4 h-4 rounded-full bg-brand-primary/10 text-brand-primary font-bold shrink-0 text-[9px] border border-brand-primary/20">
-                                  1
-                                </span>
-                                <p className="pt-0.5">{t.quickHelpTip1}</p>
-                              </div>
-                              <div className="flex items-start gap-2">
-                                <span className="flex items-center justify-center w-4 h-4 rounded-full bg-amber-50 text-amber-600 font-bold shrink-0 text-[9px] border border-amber-100">
-                                  2
-                                </span>
-                                <div className="space-y-1 pt-0.5">
-                                  <p>{t.quickHelpTip2}</p>
-                                  <span className="inline-flex items-center gap-1 text-[8.5px] font-extrabold text-amber-700 uppercase tracking-wider bg-amber-50 px-1.5 py-0.5 rounded-lg border border-amber-200/60 shadow-sm mt-1">
-                                    <Sun className="w-3 h-3 text-amber-500 animate-pulse animate-duration-1000" /> {t.quickHelpTipLight}
-                                  </span>
-                                </div>
-                              </div>
+                            <div className="w-full h-1.5 bg-slate-800/90 rounded-full overflow-hidden border border-slate-700/60 p-[1px]">
+                              <motion.div
+                                className="h-full bg-gradient-to-r from-amber-400 via-emerald-400 to-emerald-500 rounded-full shadow-[0_0_8px_rgba(52,211,153,0.5)]"
+                                initial={{ width: "25%" }}
+                                animate={{ width: `${((carouselStep + 1) / 4) * 100}%` }}
+                                transition={{ duration: 0.3, ease: "easeInOut" }}
+                              />
                             </div>
                           </div>
-                          
-                          <button
-                            type="button"
-                            onClick={() => setShowQuickHelp(false)}
-                            className="w-full py-2 bg-brand-primary hover:bg-brand-primary/95 text-white text-[9px] font-black uppercase tracking-widest rounded-xl transition-all shadow-md shadow-brand-primary/10 cursor-pointer text-center active:scale-95"
-                          >
-                            {t.quickHelpGotIt}
-                          </button>
+
+                          {/* Carousel Header */}
+                          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <div className="flex items-center gap-1.5">
+                              <div className="p-1 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-400">
+                                <Camera className="w-3.5 h-3.5" />
+                              </div>
+                              <div className="flex flex-col">
+                                <h5 className="text-[11px] font-extrabold uppercase tracking-wider text-slate-100 flex items-center gap-1">
+                                  <span>{t.carouselTitle || "Scanner Placement Guide"}</span>
+                                  <Sparkles className="w-3 h-3 text-amber-400" />
+                                </h5>
+                                <span className="text-[8.5px] text-slate-400 font-medium leading-none">
+                                  {t.carouselSubtitle || "Step-by-step camera placement for fast QR auto-detection"}
+                                </span>
+                              </div>
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() => setShowQuickHelp(false)}
+                              className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all cursor-pointer"
+                              title="Close Guide"
+                            >
+                              <X className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+
+                          {/* Carousel Content Slides */}
+                          <div className="relative my-2 min-h-[140px] flex flex-col justify-center">
+                            {/* Interactive Quick Tip Tooltip Popover Overlay */}
+                            <AnimatePresence>
+                              {activeQuickTip === carouselStep && (
+                                <motion.div
+                                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                  transition={{ duration: 0.15 }}
+                                  className="absolute inset-x-0 bottom-0 bg-slate-950/98 border border-amber-400/70 rounded-xl p-2.5 shadow-2xl z-40 text-left flex flex-col justify-between space-y-1.5 backdrop-blur-md"
+                                >
+                                  <div className="flex items-center justify-between border-b border-amber-500/30 pb-1">
+                                    <span className="text-[9.5px] font-extrabold uppercase tracking-wider text-amber-300 flex items-center gap-1">
+                                      <Lightbulb className="w-3 h-3 text-amber-400 fill-amber-400/20 animate-bounce" />
+                                      Step {carouselStep + 1} Camera Advice
+                                    </span>
+                                    <button
+                                      type="button"
+                                      onClick={() => setActiveQuickTip(null)}
+                                      className="text-slate-400 hover:text-white p-0.5 rounded cursor-pointer transition-colors"
+                                    >
+                                      <X className="w-3 h-3" />
+                                    </button>
+                                  </div>
+                                  <p className="text-[9px] text-slate-200 leading-relaxed font-medium">
+                                    {[
+                                      "Pro-Tip: If camera won't focus close up, hold back at 30cm until auto-focus locks, then slowly bring the QR code closer.",
+                                      "Pro-Tip: Avoid direct overhead glare! Tilt your phone 15° to displace screen reflection while keeping the QR framed.",
+                                      "Pro-Tip: Fingerprints cause blurry camera focus. Wipe lens with a soft cloth and rest phone against a surface for 1s.",
+                                      "Pro-Tip: Ensure system haptics are turned ON in device settings. Confirmation vibration triggers in <200ms upon detection."
+                                    ][carouselStep]}
+                                  </p>
+                                  <div className="flex items-center justify-between pt-0.5">
+                                    <span className="text-[8px] font-mono text-amber-400/80">Contextual troubleshooting tip</span>
+                                    <button
+                                      type="button"
+                                      onClick={() => setActiveQuickTip(null)}
+                                      className="px-2 py-0.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-[8.5px] rounded uppercase tracking-wider transition-all cursor-pointer shadow-sm active:scale-95"
+                                    >
+                                      Got It
+                                    </button>
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+
+                            <AnimatePresence mode="wait">
+                              {carouselStep === 0 && (
+                                <motion.div
+                                  key="step-0"
+                                  initial={{ opacity: 0, x: 20 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  exit={{ opacity: 0, x: -20 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="flex flex-col items-center gap-2 text-center p-1"
+                                >
+                                  {/* Step 1 Visual Diagram: Distance & Centering */}
+                                  <div className="relative w-full h-20 bg-slate-950 rounded-xl border border-slate-800 p-2 flex items-center justify-center overflow-hidden">
+                                    <div className="absolute inset-2 border border-dashed border-emerald-500/50 rounded-lg flex items-center justify-center animate-pulse">
+                                      <div className="w-10 h-10 border-2 border-emerald-400 rounded-md bg-emerald-500/10 flex items-center justify-center">
+                                        <QrCode className="w-6 h-6 text-emerald-400" />
+                                      </div>
+                                    </div>
+                                    <div className="absolute top-1 left-2 flex items-center gap-1 text-[8px] font-mono text-emerald-400 font-bold bg-slate-900/90 px-1.5 py-0.5 rounded border border-emerald-500/30">
+                                      <Maximize2 className="w-2.5 h-2.5" /> 15 – 30 cm
+                                    </div>
+                                    <div className="absolute bottom-1 right-2 text-[8px] font-mono text-amber-400 font-bold bg-slate-900/90 px-1.5 py-0.5 rounded border border-amber-500/30">
+                                      CENTERED
+                                    </div>
+                                  </div>
+
+                                  <div className="space-y-0.5 flex flex-col items-center">
+                                    <div className="flex items-center gap-1.5">
+                                      <h6 className="text-[11px] font-black text-amber-300">
+                                        {t.carouselStep1Title || "1. Distance & Frame Centering"}
+                                      </h6>
+                                      <button
+                                        type="button"
+                                        onClick={() => setActiveQuickTip(activeQuickTip === 0 ? null : 0)}
+                                        onMouseEnter={() => setActiveQuickTip(0)}
+                                        className="inline-flex items-center gap-1 text-[8px] font-black uppercase tracking-wider bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 border border-amber-400/40 px-1.5 py-0.5 rounded-full transition-all cursor-pointer active:scale-95"
+                                        title="Hover or tap for camera advice"
+                                      >
+                                        <Lightbulb className="w-2.5 h-2.5 text-amber-400 animate-pulse" />
+                                        <span>Quick Tip</span>
+                                      </button>
+                                    </div>
+                                    <p className="text-[9.5px] text-slate-300 leading-snug max-w-[320px]">
+                                      {t.carouselStep1Desc || "Hold device 15–30 cm (6–12 in) from the code. Align the entire QR box inside the green frame."}
+                                    </p>
+                                  </div>
+                                </motion.div>
+                              )}
+
+                              {carouselStep === 1 && (
+                                <motion.div
+                                  key="step-1"
+                                  initial={{ opacity: 0, x: 20 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  exit={{ opacity: 0, x: -20 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="flex flex-col items-center gap-2 text-center p-1"
+                                >
+                                  {/* Step 2 Visual Diagram: Lighting & Anti-Glare */}
+                                  <div className="relative w-full h-20 bg-slate-950 rounded-xl border border-slate-800 p-2 flex items-center justify-center overflow-hidden">
+                                    <div className="flex items-center gap-4">
+                                      <div className="flex flex-col items-center gap-1">
+                                        <Sun className="w-7 h-7 text-amber-400 animate-spin animate-duration-3000" />
+                                        <span className="text-[8px] font-mono text-amber-300 font-bold">Bright Light</span>
+                                      </div>
+                                      <div className="w-12 h-14 bg-slate-900 border border-slate-700 rounded-lg transform rotate-6 shadow-md flex items-center justify-center relative">
+                                        <ShieldCheck className="w-5 h-5 text-emerald-400" />
+                                        <div className="absolute top-0 right-0 w-3 h-3 bg-amber-400/30 rounded-full blur-sm" />
+                                      </div>
+                                    </div>
+                                    <div className="absolute bottom-1 left-2 text-[8px] font-mono text-emerald-400 font-bold bg-slate-900/90 px-1.5 py-0.5 rounded border border-emerald-500/30">
+                                      ANTI-GLARE TILT
+                                    </div>
+                                  </div>
+
+                                  <div className="space-y-0.5 flex flex-col items-center">
+                                    <div className="flex items-center gap-1.5">
+                                      <h6 className="text-[11px] font-black text-amber-300">
+                                        {t.carouselStep2Title || "2. Lighting & Anti-Glare Angle"}
+                                      </h6>
+                                      <button
+                                        type="button"
+                                        onClick={() => setActiveQuickTip(activeQuickTip === 1 ? null : 1)}
+                                        onMouseEnter={() => setActiveQuickTip(1)}
+                                        className="inline-flex items-center gap-1 text-[8px] font-black uppercase tracking-wider bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 border border-amber-400/40 px-1.5 py-0.5 rounded-full transition-all cursor-pointer active:scale-95"
+                                        title="Hover or tap for camera advice"
+                                      >
+                                        <Lightbulb className="w-2.5 h-2.5 text-amber-400 animate-pulse" />
+                                        <span>Quick Tip</span>
+                                      </button>
+                                    </div>
+                                    <p className="text-[9.5px] text-slate-300 leading-snug max-w-[320px]">
+                                      {t.carouselStep2Desc || "Ensure clear lighting. If screen glare appears, tilt your device slightly to eliminate harsh reflection."}
+                                    </p>
+                                  </div>
+                                </motion.div>
+                              )}
+
+                              {carouselStep === 2 && (
+                                <motion.div
+                                  key="step-2"
+                                  initial={{ opacity: 0, x: 20 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  exit={{ opacity: 0, x: -20 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="flex flex-col items-center gap-2 text-center p-1"
+                                >
+                                  {/* Step 3 Visual Diagram: Steady Hold & Lens Focus */}
+                                  <div className="relative w-full h-20 bg-slate-950 rounded-xl border border-slate-800 p-2 flex items-center justify-center overflow-hidden">
+                                    <div className="relative flex items-center justify-center">
+                                      <div className="w-12 h-12 rounded-full border-2 border-sky-400/40 flex items-center justify-center animate-ping">
+                                        <div className="w-8 h-8 rounded-full border border-sky-400 flex items-center justify-center">
+                                          <Focus className="w-5 h-5 text-sky-400" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="absolute top-1 right-2 text-[8px] font-mono text-sky-400 font-bold bg-slate-900/90 px-1.5 py-0.5 rounded border border-sky-500/30">
+                                      HOLD STEADY (1-2s)
+                                    </div>
+                                    <div className="absolute bottom-1 left-2 text-[8px] font-mono text-emerald-400 font-bold bg-slate-900/90 px-1.5 py-0.5 rounded border border-emerald-500/30">
+                                      CLEAN LENS
+                                    </div>
+                                  </div>
+
+                                  <div className="space-y-0.5 flex flex-col items-center">
+                                    <div className="flex items-center gap-1.5">
+                                      <h6 className="text-[11px] font-black text-amber-300">
+                                        {t.carouselStep3Title || "3. Steady Hold & Lens Focus"}
+                                      </h6>
+                                      <button
+                                        type="button"
+                                        onClick={() => setActiveQuickTip(activeQuickTip === 2 ? null : 2)}
+                                        onMouseEnter={() => setActiveQuickTip(2)}
+                                        className="inline-flex items-center gap-1 text-[8px] font-black uppercase tracking-wider bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 border border-amber-400/40 px-1.5 py-0.5 rounded-full transition-all cursor-pointer active:scale-95"
+                                        title="Hover or tap for camera advice"
+                                      >
+                                        <Lightbulb className="w-2.5 h-2.5 text-amber-400 animate-pulse" />
+                                        <span>Quick Tip</span>
+                                      </button>
+                                    </div>
+                                    <p className="text-[9.5px] text-slate-300 leading-snug max-w-[320px]">
+                                      {t.carouselStep3Desc || "Hold your phone steady for 1–2 seconds. Clean camera lens if the preview appears hazy or blurred."}
+                                    </p>
+                                  </div>
+                                </motion.div>
+                              )}
+
+                              {carouselStep === 3 && (
+                                <motion.div
+                                  key="step-3"
+                                  initial={{ opacity: 0, x: 20 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  exit={{ opacity: 0, x: -20 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="flex flex-col items-center gap-2 text-center p-1"
+                                >
+                                  {/* Step 4 Visual Diagram: Laser Sweep & Haptics */}
+                                  <div className="relative w-full h-20 bg-slate-950 rounded-xl border border-slate-800 p-2 flex items-center justify-center overflow-hidden">
+                                    <div className="w-full h-full relative flex items-center justify-center">
+                                      <motion.div 
+                                        className="absolute left-2 right-2 h-[2px] bg-emerald-400 shadow-[0_0_10px_#34d399]"
+                                        animate={{ top: ["10%", "90%", "10%"] }}
+                                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                                      />
+                                      <div className="flex items-center gap-2 bg-slate-900/90 px-2.5 py-1 rounded-xl border border-emerald-500/40 z-10">
+                                        <Zap className="w-4 h-4 text-amber-400 animate-bounce" />
+                                        <span className="text-[9px] font-bold text-emerald-300">Vibrates on Detect!</span>
+                                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div className="space-y-0.5 flex flex-col items-center">
+                                    <div className="flex items-center gap-1.5">
+                                      <h6 className="text-[11px] font-black text-amber-300">
+                                        {t.carouselStep4Title || "4. Laser Sweep & Haptic Pulse"}
+                                      </h6>
+                                      <button
+                                        type="button"
+                                        onClick={() => setActiveQuickTip(activeQuickTip === 3 ? null : 3)}
+                                        onMouseEnter={() => setActiveQuickTip(3)}
+                                        className="inline-flex items-center gap-1 text-[8px] font-black uppercase tracking-wider bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 border border-amber-400/40 px-1.5 py-0.5 rounded-full transition-all cursor-pointer active:scale-95"
+                                        title="Hover or tap for camera advice"
+                                      >
+                                        <Lightbulb className="w-2.5 h-2.5 text-amber-400 animate-pulse" />
+                                        <span>Quick Tip</span>
+                                      </button>
+                                    </div>
+                                    <p className="text-[9.5px] text-slate-300 leading-snug max-w-[320px]">
+                                      {t.carouselStep4Desc || "When the laser line sweeps over the QR, auto-detect triggers a vibration confirmation pulse!"}
+                                    </p>
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+
+                          {/* Carousel Navigation Footer */}
+                          <div className="flex items-center justify-between border-t border-slate-800 pt-2">
+                            {/* Prev Button */}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setCarouselStep(Math.max(0, carouselStep - 1));
+                                setActiveQuickTip(null);
+                              }}
+                              disabled={carouselStep === 0}
+                              className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed text-slate-200 text-[10px] font-bold transition-all flex items-center gap-1 cursor-pointer"
+                            >
+                              <ChevronLeft className="w-3 h-3" />
+                              <span>{t.carouselPrev || "Previous"}</span>
+                            </button>
+
+                            {/* Dot Indicators with Hover/Tap Quick Tip trigger */}
+                            <div className="flex items-center gap-1.5">
+                              {[0, 1, 2, 3].map((idx) => (
+                                <button
+                                  key={idx}
+                                  type="button"
+                                  onClick={() => {
+                                    setCarouselStep(idx);
+                                    setActiveQuickTip(idx);
+                                  }}
+                                  onMouseEnter={() => setActiveQuickTip(idx)}
+                                  className={cn(
+                                    "h-1.5 rounded-full transition-all cursor-pointer",
+                                    carouselStep === idx
+                                      ? "w-5 bg-amber-400"
+                                      : "w-1.5 bg-slate-700 hover:bg-slate-500"
+                                  )}
+                                  title={`Step ${idx + 1} - Tap or hover for quick camera advice`}
+                                />
+                              ))}
+                            </div>
+
+                            {/* Next / Start Scan Button */}
+                            {carouselStep < 3 ? (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setCarouselStep(carouselStep + 1);
+                                  setActiveQuickTip(null);
+                                }}
+                                className="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-black text-[10px] font-extrabold transition-all flex items-center gap-1 cursor-pointer shadow-sm active:scale-95"
+                              >
+                                <span>{t.carouselNext || "Next"}</span>
+                                <ChevronRight className="w-3 h-3" />
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setShowQuickHelp(false);
+                                  if (!isScanning) {
+                                    startCamera();
+                                  }
+                                }}
+                                className="px-3 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black text-[10px] font-black uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer shadow-md shadow-emerald-500/20 active:scale-95 animate-pulse"
+                              >
+                                <Camera className="w-3 h-3" />
+                                <span>{t.carouselStartScan || "Start Camera Scan"}</span>
+                              </button>
+                            )}
+                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
 
                     {isScanning ? (
-                      <div className="relative w-[156px] h-[156px] bg-slate-950 rounded-xl border border-slate-800 shadow-inner flex flex-col items-center justify-center overflow-hidden">
+                      <div className={cn(
+                        "relative w-[156px] h-[156px] bg-slate-950 rounded-xl border shadow-inner flex flex-col items-center justify-center overflow-hidden transition-all duration-300",
+                        highContrastViewfinder ? "border-amber-400 ring-2 ring-amber-400/50 shadow-[0_0_20px_rgba(251,191,36,0.3)]" : "border-slate-800"
+                      )}>
                         {cameraStream ? (
                           <video
                             ref={videoRef}
                             autoPlay
                             playsInline
                             muted
-                            className="w-full h-full object-cover"
+                            className={cn(
+                              "w-full h-full object-cover transition-all duration-300",
+                              highContrastViewfinder && "contrast-[220%] brightness-[125%] saturate-[180%] grayscale-[30%] invert-[5%]"
+                            )}
                           />
                         ) : (
                           <div className="absolute inset-0 flex flex-col items-center justify-center p-2 text-center text-[10px] text-slate-400">
@@ -2103,22 +2500,66 @@ export default function InstallApp() {
                           </div>
                         )}
 
-                        {/* Camera viewfinder guide lines */}
+                        {/* Camera viewfinder guide lines & Accessibility High-Contrast Overlays */}
                         {cameraStream && !scanResult && (
                           <>
-                            <div className="absolute inset-3 border border-dashed border-white/20 rounded-lg pointer-events-none animate-pulse" />
-                            {/* Animated green laser line overlay */}
+                            {/* High Contrast Viewfinder Active Indicator Badge */}
+                            {highContrastViewfinder && (
+                              <div className="absolute top-1.5 left-1.5 right-1.5 flex items-center justify-between z-20 pointer-events-none">
+                                <span className="text-[7px] font-black uppercase tracking-wider text-slate-950 bg-amber-400 px-1 py-0.5 rounded shadow-[0_0_8px_#fde047] flex items-center gap-0.5">
+                                  <Eye className="w-2.5 h-2.5 fill-slate-950" />
+                                  <span>{t.highContrastActive || "High Contrast"}</span>
+                                </span>
+                              </div>
+                            )}
+
+                            {/* Viewfinder Bounding Target Zone */}
+                            {highContrastViewfinder ? (
+                              <div className="absolute inset-2 border-2 border-amber-300 rounded-lg pointer-events-none shadow-[0_0_15px_rgba(251,191,36,0.8)] bg-amber-400/10 z-10">
+                                {/* 4 Corner Markers for High Contrast Target Box */}
+                                <div className="absolute -top-1 -left-1 w-3.5 h-3.5 border-t-4 border-l-4 border-amber-300 shadow-[0_0_8px_#fde047]" />
+                                <div className="absolute -top-1 -right-1 w-3.5 h-3.5 border-t-4 border-r-4 border-amber-300 shadow-[0_0_8px_#fde047]" />
+                                <div className="absolute -bottom-1 -left-1 w-3.5 h-3.5 border-b-4 border-l-4 border-amber-300 shadow-[0_0_8px_#fde047]" />
+                                <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 border-b-4 border-r-4 border-amber-300 shadow-[0_0_8px_#fde047]" />
+                              </div>
+                            ) : (
+                              <div className="absolute inset-3 border border-dashed border-white/20 rounded-lg pointer-events-none animate-pulse" />
+                            )}
+
+                            {/* Animated laser line overlay */}
                             <motion.div
-                              className="absolute left-3 right-3 h-[1.5px] bg-emerald-400 pointer-events-none shadow-[0_0_8px_rgba(52,211,153,0.8)]"
+                              className={cn(
+                                "absolute left-2.5 right-2.5 pointer-events-none z-10",
+                                highContrastViewfinder
+                                  ? "h-[2.5px] bg-amber-300 shadow-[0_0_12px_#fde047]"
+                                  : "h-[1.5px] bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"
+                              )}
                               animate={{
-                                top: ["12px", "144px", "12px"],
+                                top: ["10px", "144px", "10px"],
                               }}
                               transition={{
-                                duration: 2.2,
+                                duration: highContrastViewfinder ? 1.8 : 2.2,
                                 repeat: Infinity,
                                 ease: "easeInOut",
                               }}
                             />
+
+                            {/* Viewfinder High-Contrast Toggle Button */}
+                            <motion.button
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              type="button"
+                              onClick={() => setHighContrastViewfinder(!highContrastViewfinder)}
+                              className={cn(
+                                "absolute top-2 right-2 p-1.5 rounded-xl transition-all cursor-pointer z-20 shadow-lg backdrop-blur-md border",
+                                highContrastViewfinder
+                                  ? "bg-amber-400 border-amber-500 text-slate-950 shadow-[0_0_10px_rgba(251,191,36,0.8)]"
+                                  : "bg-slate-900/70 border-slate-700/60 text-slate-300 hover:text-white"
+                              )}
+                              title={t.toggleHighContrast || "Toggle High-Contrast Viewfinder"}
+                            >
+                              <Eye className="w-3.5 h-3.5" />
+                            </motion.button>
 
                             {/* Torch Toggle Button */}
                             {hasTorch && (
@@ -2871,6 +3312,40 @@ export default function InstallApp() {
                           className={cn(
                             "pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out",
                             enableScanSound ? "translate-x-4" : "translate-x-0"
+                          )}
+                        />
+                      </button>
+                    </div>
+
+                    {/* High-Contrast Viewfinder Mode Switch */}
+                    <div className="flex items-center justify-between w-full mt-2 px-3 py-2 bg-white rounded-xl border border-gray-150/50 text-[11px] text-gray-500 shadow-sm transition-all hover:border-amber-200/50 group">
+                      <div className="flex items-center gap-2">
+                        <div className={cn(
+                          "p-1 rounded-md transition-colors",
+                          highContrastViewfinder ? "bg-amber-100" : "bg-gray-50"
+                        )}>
+                          <Eye className={cn("w-3.5 h-3.5", highContrastViewfinder ? "text-amber-600 font-black" : "text-gray-400")} />
+                        </div>
+                        <div className="flex flex-col text-left">
+                          <span className="font-semibold text-gray-600">{t.highContrastViewfinder || "High-Contrast Viewfinder"}</span>
+                          <span className="text-[8.5px] text-gray-400 leading-none">Accessibility enhancement for QR detection zone</span>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setHighContrastViewfinder(!highContrastViewfinder)}
+                        className={cn(
+                          "relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber-500/20",
+                          highContrastViewfinder ? "bg-amber-500" : "bg-gray-200"
+                        )}
+                        role="switch"
+                        aria-checked={highContrastViewfinder}
+                        aria-label="Toggle High Contrast Viewfinder"
+                      >
+                        <span
+                          className={cn(
+                            "pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out",
+                            highContrastViewfinder ? "translate-x-4" : "translate-x-0"
                           )}
                         />
                       </button>
